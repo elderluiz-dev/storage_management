@@ -17,10 +17,17 @@ produto_t *cadastra_produto_novo(produto_t produto_novo)
 // Passa um ponteiro que vai conter o endereço de outro ponteiro da lista
 int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo)
 {
-    if(size_lista < 1) return EXIT_FAILURE;
+    if(size_lista < 1 || lista_produto == NULL)
+    {
+        return EXIT_FAILURE;
+    }
 
-    produto_t *tmp = realloc(*lista_produto, (size_lista + 1) * sizeof(**lista_produto));
-    if (tmp == NULL) return EXIT_FAILURE; //! Tratar o retorno da função de cadastro de produto
+    produto_t *tmp = (produto_t *)realloc(*lista_produto, (size_lista + 1) * sizeof(**lista_produto));
+    if (tmp == NULL)
+    {
+        //! Tratar o retorno da função de cadastro de produto
+        return EXIT_FAILURE;
+    }
 
     *lista_produto = tmp;
 
@@ -29,15 +36,20 @@ int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produt
     return EXIT_SUCCESS;
 }
 
-produto_t busca_produto_id(produto_t *lista_item, int search_id, int size_lista)
+produto_t busca_produto_id(produto_t *lista_item, unsigned int search_id, int size_lista)
 {
     produto_t produto_null;
-    produto_null.id = -1;
     produto_null.nome = "NULL_STRUCT";
 
-    if(lista_item[size_lista].id == search_id) return lista_item[size_lista];
+    if(lista_item[size_lista].id == search_id)
+    {
+        return lista_item[size_lista];
+    }
 
-    if(size_lista < 0) return produto_null;
+    if(size_lista <= 0)
+    {
+        return produto_null;
+    }
 
     return busca_produto_id(lista_item, search_id, size_lista - 1);
 }
@@ -92,7 +104,6 @@ void encerra_programa(produto_t **listas, int size_listas)
 
 void ordenacao(produto_t *item, int tam)
 {
-
   for(int i = 0; i < tam; i++)
   {
     for(int j = 0; j < tam; j++)
