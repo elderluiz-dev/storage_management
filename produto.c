@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "produto.h"
 
 produto_t *cadastra_produto_novo(produto_t produto_novo)
@@ -39,6 +40,27 @@ produto_t busca_produto_id(produto_t *lista_item, int search_id, int size_lista)
     if(size_lista < 0) return produto_null;
 
     return busca_produto_id(lista_item, search_id, size_lista - 1);
+}
+
+// Passa o vetor de produtos, o id do produto a ser removido e o tamanho do vetor
+void remove_produto(produto_t v[], int id, int tam){
+  for(int i = 0; i < tam; i++){
+    if(v[i].id == id){
+      
+      for(int j = i; j < tam; j++){
+        v[j] = v[j+1];  
+      }
+      
+      int new_size = tam - 1;
+      produto_t *temp = realloc(v, new_size * sizeof(*temp));
+      if(temp == NULL){
+        printf("Realloc falhou"); // Trata erro de alocação do realloc
+        return;
+      }else{
+        v = temp;
+      }
+    }
+  }
 }
 
 // Passa um vetor estático de vetores dinâmicos para a limpeza 
