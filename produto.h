@@ -6,3 +6,5 @@ typedef struct {
     float preco;
     int quantidade;
 } produto_t;
+
+int cadastra_produto();
