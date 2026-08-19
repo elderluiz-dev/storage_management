@@ -13,16 +13,17 @@ produto_t *cadastra_produto_novo(produto_t produto_novo)
     return lista_produto;
 }
 
-int cadastra_produto(produto_t *lista_produto, int size_lista, produto_t produto_novo)
+// Passa um ponteiro que vai conter o endereço de outro ponteiro da lista
+int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo)
 {
     if(size_lista < 1) return EXIT_FAILURE;
 
-    produto_t *tmp = realloc(lista_produto, (size_lista + 1) * sizeof(*lista_produto));
-    if (lista_produto == NULL) return EXIT_FAILURE; // Tratar o retorno da função de cadastro de produto
+    produto_t *tmp = realloc(*lista_produto, (size_lista + 1) * sizeof(**lista_produto));
+    if (tmp == NULL) return EXIT_FAILURE; //! Tratar o retorno da função de cadastro de produto
 
-    tmp = lista_produto;
+    *lista_produto = tmp;
 
-    lista_produto[size_lista] = produto_novo;
+    (*lista_produto)[size_lista] = produto_novo;
 
     return EXIT_SUCCESS;
 }
@@ -38,4 +39,14 @@ produto_t busca_produto_id(produto_t *lista_item, int search_id, int size_lista)
     if(size_lista < 0) return produto_null;
 
     return busca_produto_id(lista_item, search_id, size_lista - 1);
+}
+
+// Passa um vetor estático de vetores dinâmicos para a limpeza 
+void encerra_programa(produto_t **listas, int size_listas)
+{
+    for(int i = 0; i < size_listas; i++)
+    {
+        free(listas[i]);
+        listas[i] = NULL;
+    }
 }
