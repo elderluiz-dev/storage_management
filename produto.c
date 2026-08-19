@@ -26,3 +26,16 @@ int cadastra_produto(produto_t *lista_produto, int size_lista, produto_t produto
 
     return EXIT_SUCCESS;
 }
+
+produto_t busca_produto_id(produto_t *lista_item, int search_id, int size_lista)
+{
+    produto_t produto_null;
+    produto_null.id = -1;
+    produto_null.nome = "NULL_STRUCT";
+
+    if(lista_item[size_lista].id == search_id) return lista_item[size_lista];
+
+    if(size_lista < 0) return produto_null;
+
+    return busca_produto_id(lista_item, search_id, size_lista - 1);
+}
