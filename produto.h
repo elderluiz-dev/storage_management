@@ -20,3 +20,5 @@ float calc_estoque(produto_t vet[], int tam, int i);
 void encerra_programa(produto_t **listas, int size_listas);
 
 void listar_produto (produto_t *item, int tam, int base);
+
+void ordenacao(produto_t *item, int tam);
