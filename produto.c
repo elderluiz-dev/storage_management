@@ -89,3 +89,21 @@ void encerra_programa(produto_t **listas, int size_listas)
    printf("id: %d\nproduto: %s\npreco: %.2f\nquantidade: %d\n", item[base].id, item[base].nome, item[base].preco, item[base].quantidade);
    listar_produto(item, tam, base + 1);
  }
+
+void ordenacao(produto_t *item, int tam)
+{
+
+  for(int i = 0; i < tam; i++)
+  {
+    for(int j = 0; j < tam; j++)
+    {
+      produto_t aux;
+      if (item[i].preco < item[j].preco)
+      {
+        aux = item[i];
+        item[i] = item[j];
+        item[j] = aux;
+      }
+    }
+  }
+}
