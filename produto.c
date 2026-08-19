@@ -63,6 +63,16 @@ void remove_produto(produto_t v[], int id, int tam){
   }
 }
 
+// Calcula recursivamente o valor do estoque
+float calc_estoque(produto_t vet[], int tam, int i){
+  if(tam == i){
+    return 0;
+  }
+
+  float calc = calc_estoque(vet, tam, i + 1) + vet[i].preco * vet[i].quantidade;
+  return calc;
+}
+
 // Passa um vetor estático de vetores dinâmicos para a limpeza 
 void encerra_programa(produto_t **listas, int size_listas)
 {

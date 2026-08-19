@@ -13,4 +13,8 @@ int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produt
 
 produto_t busca_produto_id(produto_t *lista_item, int search_id, int size_lista);
 
+void remove_produto(produto_t v[], int id, int tam);
+
+float calc_estoque(produto_t vet[], int tam, int i);
+
 void encerra_programa(produto_t **listas, int size_listas);
