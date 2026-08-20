@@ -17,6 +17,8 @@ produto_t *cadastra_produto_novo(produto_t produto_novo)
 // Passa um ponteiro que vai conter o endereço de outro ponteiro da lista
 int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo)
 {
+    int found_id = 0;
+
     if(size_lista < 1 || lista_produto == NULL)
     {
         return EXIT_FAILURE;
@@ -36,14 +38,14 @@ int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produt
     return EXIT_SUCCESS;
 }
 
-produto_t busca_produto_id(produto_t *lista_item, unsigned int search_id, int size_lista)
+produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, int size_lista)
 {
     produto_t produto_null;
     produto_null.nome = "NULL_STRUCT";
 
-    if(lista_item[size_lista].id == search_id)
+    if(lista_lista_item[size_lista].id == search_id)
     {
-        return lista_item[size_lista];
+        return lista_lista_item[size_lista];
     }
 
     if(size_lista <= 0)
@@ -51,37 +53,45 @@ produto_t busca_produto_id(produto_t *lista_item, unsigned int search_id, int si
         return produto_null;
     }
 
-    return busca_produto_id(lista_item, search_id, size_lista - 1);
+    return busca_produto_id(lista_lista_item, search_id, size_lista - 1);
 }
 
-// Passa o vetor de produtos, o id do produto a ser removido e o tamanho do vetor
-void remove_produto(produto_t v[], int id, int tam){
-  for(int i = 0; i < tam; i++){
-    if(v[i].id == id){
-      
-      for(int j = i; j < tam; j++){
-        v[j] = v[j+1];  
-      }
-      
-      int new_size = tam - 1;
-      produto_t *temp = realloc(v, new_size * sizeof(*temp));
-      if(temp == NULL){
-        printf("Realloc falhou"); // Trata erro de alocação do realloc
-        return;
-      }else{
-        v = temp;
+// Passa o vetor de produtos, o id do produto a ser removido e o size_listaanho do vetor
+ERROR_TYPE_T remove_produto(produto_t *lista_lista_item, int id, int size_lista)
+{
+    for(int i = 0; i < size_lista; i++)
+    {
+        if(lista_lista_item[i].id == id)
+        {
+            for(int j = i; j < size_lista; j++)
+            {
+                lista_lista_item[j] = lista_lista_item[j+1];  
+            }
+        
+            int new_size = size_lista - 1;
+            produto_t *temp = (produto_t *)realloc(lista_lista_item, new_size * sizeof(*temp));
+            if(temp == NULL)
+            {
+                printf("Realloc falhou"); // Trata erro de alocação do realloc
+                return ALLOCATION_ERROR;
+            }
+
+            lista_lista_item = temp;
       }
     }
-  }
+
+    return SUCCESS;
 }
 
 // Calcula recursivamente o valor do estoque
-float calc_estoque(produto_t vet[], int tam, int i){
-  if(tam == i){
-    return 0;
+float calc_estoque(produto_t *lista_lista_item, int size_lista, int i)
+{
+  if(size_lista == i)
+  {
+      return 0;
   }
 
-  float calc = calc_estoque(vet, tam, i + 1) + vet[i].preco * vet[i].quantidade;
+  float calc = calc_estoque(lista_lista_item, size_lista, i + 1) + lista_lista_item[i].preco * lista_lista_item[i].quantidade;
   return calc;
 }
 
@@ -95,26 +105,27 @@ void encerra_programa(produto_t **listas, int size_listas)
     }
 }
 
- void listar_produto(produto_t *item, int tam, int base)
- {
-   if(base == tam) return;
-   printf("id: %d\nproduto: %s\npreco: %.2f\nquantidade: %d\n", item[base].id, item[base].nome, item[base].preco, item[base].quantidade);
-   listar_produto(item, tam, base + 1);
- }
-
-void ordenacao(produto_t *item, int tam)
+void listar_produto(produto_t *lista_item, int size_lista, int base)
 {
-  for(int i = 0; i < tam; i++)
-  {
-    for(int j = 0; j < tam; j++)
+  if(base == size_lista) return;
+  printf("id: %d\nproduto: %s\npreco: %.2f\nquantidade: %d\n", lista_item[base].id, lista_item[base].nome, lista_item[base].preco, lista_item[base].quantidade);
+  listar_produto(lista_item, size_lista, base + 1);
+}
+
+void ordenacao(produto_t *lista_item, int size_lista)
+{
+    for(int i = 0; i < size_lista; i++)
     {
-      produto_t aux;
-      if (item[i].preco < item[j].preco)
-      {
-        aux = item[i];
-        item[i] = item[j];
-        item[j] = aux;
-      }
+        for(int j = 0; j < size_lista; j++)
+        {
+            produto_t aux;
+
+            if (lista_item[i].preco < lista_item[j].preco)
+            {
+                aux = lista_item[i];
+                lista_item[i] = lista_item[j];
+                lista_item[j] = aux;
+            }
+        }
     }
-  }
 }
