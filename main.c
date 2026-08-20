@@ -7,7 +7,7 @@
 int main()
 {  
     produto_t *lista_produto;
-    int id = 0;
+    int id = 1;
     int qty_lista = 0;
     int cadastro_novo = 0;
 
@@ -22,7 +22,8 @@ int main()
                 produto_t produto_novo = {};
 
                 while (getchar() != '\n' && getchar() != EOF); 
-                printf("Nome: ");
+                printf("\nPreencha as informações abaixo: \n");
+                printf("Nome do item: ");
                 fgets(produto_novo.nome, sizeof(produto_novo.nome), stdin);
                 produto_novo.nome[strcspn(produto_novo.nome, "\n")] = '\0';
 
@@ -70,7 +71,7 @@ int main()
             {
                 if(lista_produto == NULL)
                 {
-                    printf("Lista não existente!");
+                    printf("\nNenhum item foi cadastrado ainda.\n");
                     break;
                 }
 
@@ -107,14 +108,18 @@ int main()
                     break;
                 }
 
-                printf("\nSucesso na ordenacao\n");
+                printf("\nLista ordenada com sucesso!\n");
                 ordenacao(lista_produto, qty_lista);
                 break;
             }
 
             case 6:
             {
-                break;
+                produto_t *lista_free[] = {lista_produto};
+                encerra_programa(lista_free, 1);
+             
+                printf("\nPrograma encerrado pelo usuário.\n");
+                return 0;
             }
 
             default:
@@ -124,6 +129,6 @@ int main()
             }
         }
     }
-    
+        
     return 0;
 }
