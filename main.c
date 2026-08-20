@@ -65,12 +65,10 @@ int main()
             {
                 cadastro_novo = 0;
                 printf("%d", qty_lista);
-                remove_produto(&lista_produto, remv_id, qty_lista);
-                qty_lista--;
+                remove_produto(&lista_produto, remv_id, &qty_lista);
             }else
             {
-                remove_produto(&lista_produto, remv_id, qty_lista);
-                qty_lista--;
+                remove_produto(&lista_produto, remv_id, &qty_lista);
             }
             break;
             }
