@@ -40,13 +40,14 @@ int main()
 
                     qty_lista++;
                     cadastro_novo = 1;
+                    id++;
                 }
                 else
                 {
                     cadastra_produto(&lista_produto, qty_lista, produto_novo);
                     
-                    id++;
                     qty_lista++;
+                    id++;
                 }
 
                 break;
