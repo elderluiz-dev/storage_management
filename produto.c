@@ -109,9 +109,15 @@ void encerra_programa(produto_t **listas, int size_listas)
 
 void listar_produto(produto_t *lista_item, int size_lista, int base)
 {
-  if(base == size_lista) return;
-  printf("id: %d\nproduto: %s\npreco: %.2f\nquantidade: %d\n", lista_item[base].id, lista_item[base].nome, lista_item[base].preco, lista_item[base].quantidade);
-  listar_produto(lista_item, size_lista, base + 1);
+    if(base == size_lista) return;
+    if(base == 0) printf ("\nProdutos cadastrados: ");
+
+    printf("\nid: %d\n", lista_item[base].id);
+    printf("produto: %s\n", lista_item[base].nome);
+    printf("preco: %.2f\n", lista_item[base].preco);
+    printf("quantidade: %d\n", lista_item[base].quantidade);
+
+    listar_produto(lista_item, size_lista, base + 1);
 }
 
 void ordenacao(produto_t *lista_item, int size_lista)

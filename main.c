@@ -7,7 +7,7 @@
 int main()
 {  
     produto_t *lista_produto;
-    int id = 1;
+    int id = 0;
     int qty_lista = 0;
     int cadastro_novo = 0;
 
@@ -57,6 +57,12 @@ int main()
             }
             case 3:
             {
+                if(qty_lista != 0)
+                {
+                    listar_produto(lista_produto, qty_lista, 0);
+                    break;
+                }
+                printf("\nNenhum produto foi cadastrado ainda.\n");
                 break;
             }
             case 4:
@@ -94,6 +100,14 @@ int main()
             }
             case 5:
             {
+                if(qty_lista == 0)
+                {
+                    printf("\nNenhum item foi cadastrado ainda.\n");
+                    break;
+                }
+
+                printf("\nSucesso na ordenacao\n");
+                ordenacao(lista_produto, qty_lista);
                 break;
             }
 
