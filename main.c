@@ -78,22 +78,27 @@ int main()
             {
                 if(qty_lista != 0)
                 {
+                    limpa_terminal();
                     listar_produto(lista_produto, qty_lista, 0);
                     break;
                 }
-                printf("\nNenhum produto foi cadastrado.\n");
+
+                limpa_terminal();
+                printf("\nNenhum item cadastrado!\n");
                 break;
             }
             case 4:
             {
                 if(lista_produto == NULL)
                 {
-                    printf("\nNenhum item foi cadastrado.\n");
+                    limpa_terminal();
+                    printf("\nNenhum item cadastrado!\n");
                     break;
                 }
 
                 unsigned int id;
                 
+                limpa_terminal();
                 printf("Digite o id: ");
                 scanf("%u", &id);
 
@@ -101,12 +106,14 @@ int main()
                 
                 if(strcmp(lista_buscada.nome, "NULL_STRUCT") == 0)
                 {
-                    printf("Produto não encontrado!\n");
+                    limpa_terminal();
+                    printf("Item não encontrado!\n");
                     break;
                 }
                 else
                 {
-                    printf("\n=== Lista encontrada ===\n");
+                    limpa_terminal();
+                    printf("\n=== Item encontrada ===\n");
                     printf("Id: %u\n", lista_buscada.id);
                     printf("Nome: %s\n", lista_buscada.nome);
                     printf("Preço: %f\n", lista_buscada.preco);           
@@ -121,10 +128,12 @@ int main()
             {
                 if(qty_lista == 0)
                 {
-                    printf("\nNenhum item foi cadastrado.\n");
+                    limpa_terminal();
+                    printf("\nNenhum item cadastrado!\n");
                     break;
                 }
 
+                limpa_terminal();
                 printf("\nLista ordenada com sucesso!\n");
                 ordenacao(lista_produto, qty_lista);
                 break;
@@ -148,6 +157,7 @@ int main()
 
             default:
             {
+                limpa_terminal();
                 printf("Opção inválida!\n");
                 break;
             }
