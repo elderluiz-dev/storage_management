@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "produto.h"
 
 produto_t *cadastra_produto_novo(produto_t produto_novo)
@@ -10,15 +11,15 @@ produto_t *cadastra_produto_novo(produto_t produto_novo)
         // Tratar o retorno da função de cadastro de produto novo
         return NULL;
     }
-    
+
+    lista_produto[0] = produto_novo;
+
     return lista_produto;
 }
 
 // Passa um ponteiro que vai conter o endereço de outro ponteiro da lista
 int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo)
 {
-    int found_id = 0;
-
     if(size_lista < 1 || lista_produto == NULL)
     {
         return EXIT_FAILURE;
@@ -41,7 +42,8 @@ int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produt
 produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, int size_lista)
 {
     produto_t produto_null;
-    produto_null.nome = "NULL_STRUCT";
+    char *null = "NULL_STRUCT";
+    strncpy(produto_null.nome, null,sizeof(null));
 
     if(lista_lista_item[size_lista].id == search_id)
     {

@@ -1,3 +1,3 @@
 #pragma once
 
-void home(int *option);
+int home();

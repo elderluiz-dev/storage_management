@@ -2,7 +2,7 @@
 
 typedef struct {
     unsigned int id;
-    char *nome;
+    char nome[50];
     float preco;
     int quantidade;
 } produto_t;
