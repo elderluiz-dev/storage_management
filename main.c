@@ -7,7 +7,7 @@
 int main()
 {  
     produto_t *lista_produto;
-    int id = 0;
+    int id = 1;
     int qty_lista = 0;
     int cadastro_novo = 0;
 
@@ -54,7 +54,24 @@ int main()
             }
             case 2:
             {
-                break;
+            int remv_id;
+            
+            printf("Digite o ID do produto a ser removido: ");
+            scanf("%d", &remv_id);
+          
+          
+            if(qty_lista == 1)
+            {
+                cadastro_novo = 0;
+                printf("%d", qty_lista);
+                remove_produto(&lista_produto, remv_id, qty_lista);
+                qty_lista--;
+            }else
+            {
+                remove_produto(&lista_produto, remv_id, qty_lista);
+                qty_lista--;
+            }
+            break;
             }
             case 3:
             {
