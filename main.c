@@ -55,25 +55,24 @@ int main()
             }
             case 2:
             {
-            int remv_id;
+                int remv_id;
+
+                if(qty_lista == 0)
+                {
+                    printf("\nNenhum produto cadastrado.\n");
+                    break;
+                }
             
-            printf("Digite o ID do item a ser removido: ");
-            scanf("%d", &remv_id);
+                printf("Digite o ID do produto a ser removido: ");
+                scanf("%d", &remv_id);
           
-          
-            if(qty_lista == 1)
-            {
-                cadastro_novo = 0;
-                limpa_terminal();
-                remove_produto(&lista_produto, remv_id, qty_lista);
-                qty_lista--;
-            }else
-            {
-                limpa_terminal();
-                remove_produto(&lista_produto, remv_id, qty_lista);
-                qty_lista--;
-            }
-            break;
+                if(qty_lista == 1)
+                {
+                    cadastro_novo = 0;
+                }
+                
+                remove_produto(&lista_produto, remv_id, &qty_lista);
+                break;
             }
             case 3:
             {
@@ -139,8 +138,15 @@ int main()
                 ordenacao(lista_produto, qty_lista);
                 break;
             }
-
+            
             case 6:
+            {
+              
+              printf("\nValor total do estoque: R$ %.2f\n", calc_estoque(lista_produto, qty_lista, 0));
+              break;
+            }
+
+            case 7:
             {
                 produto_t *lista_free[] = {lista_produto};
                 encerra_programa(lista_free, 1);

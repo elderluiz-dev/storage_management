@@ -13,7 +13,8 @@ int home(){
     printf("3. Listar produtos\n");
     printf("4. Buscar produtos\n");
     printf("5. Ordenar produtos\n");
-    printf("6. Sair\n");
+    printf("6. Calcular valor total do estoque\n");
+    printf("7. Sair\n");
 
     printf("> ");
     scanf("%d", &option);
