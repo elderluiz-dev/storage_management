@@ -129,8 +129,15 @@ int main()
                 ordenacao(lista_produto, qty_lista);
                 break;
             }
-
+            
             case 6:
+            {
+              
+              printf("\nValor total do estoque: R$ %.2f\n", calc_estoque(lista_produto, qty_lista, 0));
+              break;
+            }
+
+            case 7:
             {
                 produto_t *lista_free[] = {lista_produto};
                 encerra_programa(lista_free, 1);
