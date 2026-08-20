@@ -45,10 +45,10 @@ int main()
                 {
                     cadastra_produto(&lista_produto, qty_lista, produto_novo);
                     
+                    id++;
                     qty_lista++;
                 }
 
-                id++;
                 break;
             }
             case 2:
@@ -68,8 +68,6 @@ int main()
                 }
 
                 unsigned int id;
-
-                printf("ID: %d\n", lista_produto[1].id);
 
                 printf("Digite o id: ");
                 scanf("%u", &id);
