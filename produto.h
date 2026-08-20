@@ -18,7 +18,7 @@ int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produt
 
 produto_t busca_produto_id(produto_t *lista_item, unsigned int search_id, int size_lista);
 
-ERROR_TYPE_T remove_produto(produto_t *v, int id, int tam);
+ERROR_TYPE_T remove_produto(produto_t **v, int id, int tam);
 
 float calc_estoque(produto_t *vet, int tam, int i);
 

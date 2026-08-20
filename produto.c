@@ -58,32 +58,40 @@ produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, 
     return busca_produto_id(lista_lista_item, search_id, size_lista - 1);
 }
 
-// Passa o vetor de produtos, o id do produto a ser removido e o size_listaanho do vetor
-ERROR_TYPE_T remove_produto(produto_t *lista_lista_item, int id, int size_lista)
+// Passa o vetor de produtos, o id do produto a ser removido e o size_lista do vetor
+ERROR_TYPE_T remove_produto(produto_t **lista_lista_item, int id, int size_lista)
 {
-    for(int i = 0; i < size_lista; i++)
+    if(size_lista == 1)
     {
-        if(lista_lista_item[i].id == id)
+        free(*lista_lista_item);
+        *lista_lista_item = NULL;
+        printf("Produto de ID %d removido com sucesso!", id);
+        return SUCCESS;
+    } 
+    
+    for(int i = 0; i < size_lista; i++)
+    {   
+        if((*lista_lista_item)[i].id == id)
         {
-            for(int j = i; j < size_lista; j++)
+            for(int j = i; j < size_lista - 1; j++)
             {
-                lista_lista_item[j] = lista_lista_item[j+1];  
+                (*lista_lista_item)[j] = *lista_lista_item[j+1];  
             }
-        
+            
             int new_size = size_lista - 1;
-            produto_t *temp = (produto_t *)realloc(lista_lista_item, new_size * sizeof(*temp));
+            produto_t *temp = (produto_t *)realloc(*lista_lista_item, new_size * sizeof(*temp));
             if(temp == NULL)
             {
-                printf("Realloc falhou"); // Trata erro de alocação do realloc
                 return ALLOCATION_ERROR;
             }
 
-            lista_lista_item = temp;
+            *lista_lista_item = temp;
+            printf("Produto de ID %d removido com sucesso!", id);
+        }
       }
-    }
 
     return SUCCESS;
-}
+} 
 
 // Calcula recursivamente o valor do estoque
 float calc_estoque(produto_t *lista_lista_item, int size_lista, int i)
