@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "produto.h"
 #include "interface.h"
 
@@ -20,14 +21,18 @@ int main()
             {
                 produto_t produto_novo = {};
 
+                while (getchar() != '\n' && getchar() != EOF); 
                 printf("Nome: ");
-                scanf("%s", &produto_novo.nome);
+                fgets(produto_novo.nome, sizeof(produto_novo.nome), stdin);
+                produto_novo.nome[strcspn(produto_novo.nome, "\n")] = '\0';
 
                 printf("Preço: ");
                 scanf("%f", &produto_novo.preco);
                 
                 printf("Quantidade: ");
                 scanf("%d", &produto_novo.quantidade);
+
+                produto_novo.id = id;
 
                 if(cadastro_novo == 0)
                 {
@@ -40,6 +45,7 @@ int main()
                 {
                     cadastra_produto(&lista_produto, qty_lista, produto_novo);
                     
+                    id++;
                     qty_lista++;
                 }
 
@@ -47,6 +53,72 @@ int main()
             }
             case 2:
             {
+                break;
+            }
+            case 3:
+            {
+                if(qty_lista != 0)
+                {
+                    listar_produto(lista_produto, qty_lista, 0);
+                    break;
+                }
+                printf("\nNenhum produto foi cadastrado ainda.\n");
+                break;
+            }
+            case 4:
+            {
+                if(lista_produto == NULL)
+                {
+                    printf("Lista não existente!");
+                    break;
+                }
+
+                unsigned int id;
+                
+                printf("Digite o id: ");
+                scanf("%u", &id);
+
+                produto_t lista_buscada = busca_produto_id(lista_produto, id, qty_lista);
+                
+                if(strcmp(lista_buscada.nome, "NULL_STRUCT") == 0)
+                {
+                    printf("Produto não encontrado!\n");
+                    break;
+                }
+                else
+                {
+                    printf("\n=== Lista encontrada ===\n");
+                    printf("Id: %u\n", lista_buscada.id);
+                    printf("Nome: %s\n", lista_buscada.nome);
+                    printf("Preço: %f\n", lista_buscada.preco);           
+                    printf("Quantidade: %d\n", lista_buscada.quantidade);
+                    
+                    break;
+                }
+
+                break;
+            }
+            case 5:
+            {
+                if(qty_lista == 0)
+                {
+                    printf("\nNenhum item foi cadastrado ainda.\n");
+                    break;
+                }
+
+                printf("\nSucesso na ordenacao\n");
+                ordenacao(lista_produto, qty_lista);
+                break;
+            }
+
+            case 6:
+            {
+                break;
+            }
+
+            default:
+            {
+                printf("Opção inválida!\n");
                 break;
             }
         }

@@ -43,11 +43,11 @@ produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, 
 {
     produto_t produto_null;
     char *null = "NULL_STRUCT";
-    strncpy(produto_null.nome, null,sizeof(null));
+    strncpy(produto_null.nome, null, sizeof(produto_null.nome) - 1);
 
-    if(lista_lista_item[size_lista].id == search_id)
+    if(lista_lista_item[size_lista-1].id == search_id)
     {
-        return lista_lista_item[size_lista];
+        return lista_lista_item[size_lista-1];
     }
 
     if(size_lista <= 0)
@@ -109,9 +109,15 @@ void encerra_programa(produto_t **listas, int size_listas)
 
 void listar_produto(produto_t *lista_item, int size_lista, int base)
 {
-  if(base == size_lista) return;
-  printf("id: %d\nproduto: %s\npreco: %.2f\nquantidade: %d\n", lista_item[base].id, lista_item[base].nome, lista_item[base].preco, lista_item[base].quantidade);
-  listar_produto(lista_item, size_lista, base + 1);
+    if(base == size_lista) return;
+    if(base == 0) printf ("\nProdutos cadastrados: ");
+
+    printf("\nid: %d\n", lista_item[base].id);
+    printf("produto: %s\n", lista_item[base].nome);
+    printf("preco: %.2f\n", lista_item[base].preco);
+    printf("quantidade: %d\n", lista_item[base].quantidade);
+
+    listar_produto(lista_item, size_lista, base + 1);
 }
 
 void ordenacao(produto_t *lista_item, int size_lista)
