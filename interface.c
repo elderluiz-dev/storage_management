@@ -20,3 +20,8 @@ int home(){
 
     return option;
 }
+
+void limpa_terminal()
+{
+    system("clear");
+}
