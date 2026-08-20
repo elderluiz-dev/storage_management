@@ -91,12 +91,12 @@ ERROR_TYPE_T remove_produto(produto_t **lista_lista_item, int id, int *size_list
             }
 
             *lista_lista_item = temp;
-            printf("Produto de ID %d removido com sucesso!", id);
+            printf("\nProduto de ID %d removido com sucesso!\n", id);
             return SUCCESS;
         }
       }
     
-    printf("Não foi encontrado nenhum produto com este ID");
+    printf("\nNão foi encontrado nenhum produto com este ID\n");
     return SUCCESS;
 } 
 

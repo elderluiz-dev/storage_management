@@ -55,22 +55,24 @@ int main()
             }
             case 2:
             {
-            int remv_id;
+                int remv_id;
+
+                if(qty_lista == 0)
+                {
+                    printf("\nNenhum produto cadastrado.\n");
+                    break;
+                }
             
-            printf("Digite o ID do produto a ser removido: ");
-            scanf("%d", &remv_id);
+                printf("Digite o ID do produto a ser removido: ");
+                scanf("%d", &remv_id);
           
-          
-            if(qty_lista == 1)
-            {
-                cadastro_novo = 0;
-                printf("%d", qty_lista);
+                if(qty_lista == 1)
+                {
+                    cadastro_novo = 0;
+                }
+                
                 remove_produto(&lista_produto, remv_id, &qty_lista);
-            }else
-            {
-                remove_produto(&lista_produto, remv_id, &qty_lista);
-            }
-            break;
+                break;
             }
             case 3:
             {
@@ -79,14 +81,14 @@ int main()
                     listar_produto(lista_produto, qty_lista, 0);
                     break;
                 }
-                printf("\nNenhum produto foi cadastrado ainda.\n");
+                printf("\nNenhum produto foi cadastrado.\n");
                 break;
             }
             case 4:
             {
                 if(lista_produto == NULL)
                 {
-                    printf("\nNenhum item foi cadastrado ainda.\n");
+                    printf("\nNenhum item foi cadastrado.\n");
                     break;
                 }
 
@@ -119,7 +121,7 @@ int main()
             {
                 if(qty_lista == 0)
                 {
-                    printf("\nNenhum item foi cadastrado ainda.\n");
+                    printf("\nNenhum item foi cadastrado.\n");
                     break;
                 }
 
