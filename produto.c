@@ -43,11 +43,11 @@ produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, 
 {
     produto_t produto_null;
     char *null = "NULL_STRUCT";
-    strncpy(produto_null.nome, null,sizeof(null));
+    strncpy(produto_null.nome, null, sizeof(produto_null.nome) - 1);
 
-    if(lista_lista_item[size_lista].id == search_id)
+    if(lista_lista_item[size_lista-1].id == search_id)
     {
-        return lista_lista_item[size_lista];
+        return lista_lista_item[size_lista-1];
     }
 
     if(size_lista <= 0)
