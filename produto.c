@@ -65,7 +65,7 @@ ERROR_TYPE_T remove_produto(produto_t **lista_lista_item, int id, int size_lista
     {
         free(*lista_lista_item);
         *lista_lista_item = NULL;
-        printf("Produto de ID %d removido com sucesso!", id);
+        printf("\nProduto de ID %d removido com sucesso!\n", id);
         return SUCCESS;
     } 
     
@@ -75,7 +75,7 @@ ERROR_TYPE_T remove_produto(produto_t **lista_lista_item, int id, int size_lista
         {
             for(int j = i; j < size_lista - 1; j++)
             {
-                (*lista_lista_item)[j] = *lista_lista_item[j+1];  
+                (*lista_lista_item)[j] = (*lista_lista_item)[j+1];  
             }
             
             int new_size = size_lista - 1;
