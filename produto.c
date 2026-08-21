@@ -118,10 +118,10 @@ void listaProdutos(produto_t *lista, int tamanho, int base)
         printf("\nProdutos cadastrados: ");
     }
 
-    printf("\nid: %d\n", lista[base].id);
-    printf("produto: %s\n", lista[base].nome);
-    printf("preco: %.2f\n", lista[base].preco);
-    printf("quantidade: %d\n", lista[base].quantidade);
+    printf("\nId: %d\n", lista[base].id);
+    printf("Produto: %s\n", lista[base].nome);
+    printf("Preco: %.2f\n", lista[base].preco);
+    printf("Quantidade: %d\n", lista[base].quantidade);
 
     listaProdutos(lista, tamanho, base + 1);
 }
