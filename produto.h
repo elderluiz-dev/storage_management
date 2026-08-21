@@ -10,20 +10,22 @@ typedef struct {
 typedef enum {
     SUCCESS,
     ALLOCATION_ERROR,
+    ID_NOTFOUND,
+    tamanho_ERROR
 } ERROR_TYPE_T;
 
-produto_t *cadastra_produto_novo(produto_t produto_novo);
+produto_t *cadastraProdutoNovo(produto_t produto_novo);
 
-int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo);
+ERROR_TYPE_T cadastraProduto(produto_t **lista, int tamanho, produto_t produto_novo);
 
-produto_t busca_produto_id(produto_t *lista_item, unsigned int search_id, int size_lista);
+produto_t buscaProduto(produto_t *lista, unsigned int id, int tamanho);
 
-ERROR_TYPE_T remove_produto(produto_t **v, int id, int *tam);
+ERROR_TYPE_T removeProduto(produto_t **lista, unsigned int id, int *tamanho);
 
-float calc_estoque(produto_t *vet, int tam, int i);
+float calculaEstoque(produto_t *lista, int tamanho, int base);
 
-void listar_produto(produto_t *item, int tam, int base);
+void listaProdutos(produto_t *lista, int tamanho, int base);
 
-void ordenacao(produto_t *item, int tam);
+void ordenaLista(produto_t *lista, int tamanho);
 
-void encerra_programa(produto_t **listas, int size_listas);
+void encerraPrograma(produto_t **listas, int tamanho);

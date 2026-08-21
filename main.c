@@ -21,9 +21,10 @@ int main()
             {
                 produto_t produto_novo = {};
 
-                while (getchar() != '\n' && getchar() != EOF); 
                 printf("\nPreencha as informações abaixo: \n");
                 printf("Nome do item: ");
+
+                while (getchar() != '\n' && getchar() != EOF); 
                 fgets(produto_novo.nome, sizeof(produto_novo.nome), stdin);
                 produto_novo.nome[strcspn(produto_novo.nome, "\n")] = '\0';
 
@@ -37,7 +38,7 @@ int main()
 
                 if(cadastro_novo == 0)
                 {
-                    lista_produto = cadastra_produto_novo(produto_novo);
+                    lista_produto = cadastraProdutoNovo(produto_novo);
 
                     qty_lista++;
                     cadastro_novo = 1;
@@ -45,8 +46,18 @@ int main()
                 }
                 else
                 {
-                    cadastra_produto(&lista_produto, qty_lista, produto_novo);
-                    
+                    ERROR_TYPE_T err = cadastraProduto(&lista_produto, qty_lista, produto_novo);
+                    if(err == ALLOCATION_ERROR)
+                    {
+                        printf("Não foi possível alocar o novo produto: Erro de alocação na memória.\n");
+                        break;
+                    }
+                    else if(err == tamanho_ERROR)
+                    {
+                        printf("Não foi possível alocar o novo produto: Tamanho de vetor inválido ou endereço nulo.\n");
+                        break;
+                    }
+
                     qty_lista++;
                     id++;
                 }
@@ -71,19 +82,19 @@ int main()
                     cadastro_novo = 0;
                 }
                 
-                remove_produto(&lista_produto, remv_id, &qty_lista);
+                removeProduto(&lista_produto, remv_id, &qty_lista);
                 break;
             }
             case 3:
             {
                 if(qty_lista != 0)
                 {
-                    limpa_terminal();
-                    listar_produto(lista_produto, qty_lista, 0);
+                    limpaTerminal();
+                    listaProdutos(lista_produto, qty_lista, 0);
                     break;
                 }
 
-                limpa_terminal();
+                limpaTerminal();
                 printf("\nNenhum item cadastrado!\n");
                 break;
             }
@@ -91,32 +102,31 @@ int main()
             {
                 if(lista_produto == NULL)
                 {
-                    limpa_terminal();
+                    limpaTerminal();
                     printf("\nNenhum item cadastrado!\n");
                     break;
                 }
 
                 unsigned int id;
                 
-                limpa_terminal();
                 printf("Digite o id: ");
                 scanf("%u", &id);
 
-                produto_t lista_buscada = busca_produto_id(lista_produto, id, qty_lista);
+                produto_t lista_buscada = buscaProduto(lista_produto, id, qty_lista);
                 
                 if(strcmp(lista_buscada.nome, "NULL_STRUCT") == 0)
                 {
-                    limpa_terminal();
+                    limpaTerminal();
                     printf("Item não encontrado!\n");
                     break;
                 }
                 else
                 {
-                    limpa_terminal();
+                    limpaTerminal();
                     printf("\n=== Item encontrada ===\n");
                     printf("Id: %u\n", lista_buscada.id);
                     printf("Nome: %s\n", lista_buscada.nome);
-                    printf("Preço: %f\n", lista_buscada.preco);           
+                    printf("Preço: %.2f\n", lista_buscada.preco);           
                     printf("Quantidade: %d\n", lista_buscada.quantidade);
                     
                     break;
@@ -128,28 +138,28 @@ int main()
             {
                 if(qty_lista == 0)
                 {
-                    limpa_terminal();
+                    limpaTerminal();
                     printf("\nNenhum item cadastrado!\n");
                     break;
                 }
 
-                limpa_terminal();
+                limpaTerminal();
                 printf("\nLista ordenada com sucesso!\n");
-                ordenacao(lista_produto, qty_lista);
+                ordenaLista(lista_produto, qty_lista);
                 break;
             }
             
             case 6:
             {
-              
-              printf("\nValor total do estoque: R$ %.2f\n", calc_estoque(lista_produto, qty_lista, 0));
+              limpaTerminal();
+              printf("\nValor total do estoque: R$ %.2f\n", calculaEstoque(lista_produto, qty_lista, 0));
               break;
             }
 
             case 7:
             {
                 produto_t *lista_free[] = {lista_produto};
-                encerra_programa(lista_free, 1);
+                encerraPrograma(lista_free, 1);
              
                 printf("\nPrograma encerrado pelo usuário.\n");
                 return 0;
@@ -157,7 +167,7 @@ int main()
 
             default:
             {
-                limpa_terminal();
+                limpaTerminal();
                 printf("Opção inválida!\n");
                 break;
             }

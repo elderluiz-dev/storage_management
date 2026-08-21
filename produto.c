@@ -3,152 +3,153 @@
 #include <string.h>
 #include "produto.h"
 
-produto_t *cadastra_produto_novo(produto_t produto_novo)
+produto_t *cadastraProdutoNovo(produto_t produto_novo)
 {
-    produto_t *lista_produto = (produto_t *)malloc(sizeof(*lista_produto));
-    if (lista_produto == NULL)
+    produto_t *lista = (produto_t *)malloc(sizeof(*lista));
+    if (lista == NULL)
     {
         // Tratar o retorno da função de cadastro de produto novo
         return NULL;
     }
 
-    lista_produto[0] = produto_novo;
+    lista[0] = produto_novo;
 
-    return lista_produto;
+    return lista;
 }
 
 // Passa um ponteiro que vai conter o endereço de outro ponteiro da lista
-int cadastra_produto(produto_t **lista_produto, int size_lista, produto_t produto_novo)
+ERROR_TYPE_T cadastraProduto(produto_t **lista, int tamanho, produto_t produto_novo)
 {
-    if(size_lista < 1 || lista_produto == NULL)
+    if(tamanho < 1 || lista == NULL)
     {
-        return EXIT_FAILURE;
+        return tamanho_ERROR;
     }
 
-    produto_t *tmp = (produto_t *)realloc(*lista_produto, (size_lista + 1) * sizeof(**lista_produto));
+    produto_t *tmp = (produto_t *)realloc(*lista, (tamanho + 1) * sizeof(**lista));
     if (tmp == NULL)
     {
-        //! Tratar o retorno da função de cadastro de produto
-        return EXIT_FAILURE;
+        return ALLOCATION_ERROR;
     }
 
-    *lista_produto = tmp;
+    *lista = tmp;
 
-    (*lista_produto)[size_lista] = produto_novo;
+    (*lista)[tamanho] = produto_novo;
 
-    return EXIT_SUCCESS;
+    return SUCCESS;
 }
 
-produto_t busca_produto_id(produto_t *lista_lista_item, unsigned int search_id, int size_lista)
+produto_t buscaProduto(produto_t *lista, unsigned int id, int tamanho)
 {
     produto_t produto_null;
     char *null = "NULL_STRUCT";
     strncpy(produto_null.nome, null, sizeof(produto_null.nome) - 1);
 
-    if(lista_lista_item[size_lista-1].id == search_id)
+    if(lista[tamanho-1].id == id)
     {
-        return lista_lista_item[size_lista-1];
+        return lista[tamanho-1];
     }
 
-    if(size_lista <= 0)
+    if(tamanho <= 0)
     {
         return produto_null;
     }
 
-    return busca_produto_id(lista_lista_item, search_id, size_lista - 1);
+    return buscaProduto(lista, id, tamanho - 1);
 }
 
-// Passa o vetor de produtos, o id do produto a ser removido e o size_lista do vetor
-ERROR_TYPE_T remove_produto(produto_t **lista_lista_item, int id, int *size_lista)
+// Passa o vetor de produtos, o id do produto a ser removido e o tamanho do vetor
+ERROR_TYPE_T removeProduto(produto_t **lista, unsigned int id, int *tamanho)
 {
     
-    for(int i = 0; i < *size_lista; i++)
+    for(int i = 0; i < *tamanho; i++)
     {   
-        if((*lista_lista_item)[i].id == id)
+        if((*lista)[i].id == id)
         {   
             // Caso especial, onde só há 1 elemento no vetor
-            if(*size_lista == 1)
+            if(*tamanho == 1)
             {
-                free(*lista_lista_item);
-                *lista_lista_item = NULL;
+                free(*lista);
+                *lista = NULL;
                 printf("\nProduto de ID %d removido com sucesso!\n", id);
-                *size_lista -= 1;
+                *tamanho--;
                 return SUCCESS;
             }
         
-        
             // Caso normal
-            for(int j = i; j < *size_lista - 1; j++)
+            for(int j = i; j < *tamanho - 1; j++)
             {
-                (*lista_lista_item)[j] = (*lista_lista_item)[j+1];  
+                (*lista)[j] = (*lista)[j+1];  
             }
             
-            *size_lista -= 1;
-            produto_t *temp = (produto_t *)realloc(*lista_lista_item, *size_lista * sizeof(*temp));
+            *tamanho--;
+            produto_t *temp = (produto_t *)realloc(*lista, *tamanho * sizeof(*temp));
             if(temp == NULL)
             {
                 return ALLOCATION_ERROR;
             }
 
-            *lista_lista_item = temp;
+            *lista = temp;
             printf("\nProduto de ID %d removido com sucesso!\n", id);
             return SUCCESS;
         }
       }
     
     printf("\nNão foi encontrado nenhum produto com este ID\n");
-    return SUCCESS;
+    return ID_NOTFOUND;
 } 
 
 // Calcula recursivamente o valor do estoque
-float calc_estoque(produto_t *lista_lista_item, int size_lista, int i)
+float calculaEstoque(produto_t *lista, int tamanho, int base)
 {
-  if(size_lista == i)
+  if(tamanho == base)
   {
       return 0;
   }
 
-  float calc = calc_estoque(lista_lista_item, size_lista, i + 1) + lista_lista_item[i].preco * lista_lista_item[i].quantidade;
-  return calc;
+  return calculaEstoque(lista, tamanho, base + 1) + lista[base].preco * lista[base].quantidade;;
 }
 
-// Passa um vetor estático de vetores dinâmicos para a limpeza 
-void encerra_programa(produto_t **listas, int size_listas)
+void listaProdutos(produto_t *lista, int tamanho, int base)
 {
-    for(int i = 0; i < size_listas; i++)
+    if(base == tamanho) return;
+
+    if(base == 0)
     {
-        free(listas[i]);
-        listas[i] = NULL;
+        printf("\nProdutos cadastrados: ");
     }
+
+    printf("\nid: %d\n", lista[base].id);
+    printf("produto: %s\n", lista[base].nome);
+    printf("preco: %.2f\n", lista[base].preco);
+    printf("quantidade: %d\n", lista[base].quantidade);
+
+    listaProdutos(lista, tamanho, base + 1);
 }
 
-void listar_produto(produto_t *lista_item, int size_lista, int base)
+void ordenaLista(produto_t *lista, int tamanho)
 {
-    if(base == size_lista) return;
-    if(base == 0) printf ("\nProdutos cadastrados: ");
-
-    printf("\nid: %d\n", lista_item[base].id);
-    printf("produto: %s\n", lista_item[base].nome);
-    printf("preco: %.2f\n", lista_item[base].preco);
-    printf("quantidade: %d\n", lista_item[base].quantidade);
-
-    listar_produto(lista_item, size_lista, base + 1);
-}
-
-void ordenacao(produto_t *lista_item, int size_lista)
-{
-    for(int i = 0; i < size_lista; i++)
+    for(int i = 0; i < tamanho; i++)
     {
-        for(int j = 0; j < size_lista; j++)
+        for(int j = 0; j < tamanho; j++)
         {
             produto_t aux;
 
-            if (lista_item[i].preco < lista_item[j].preco)
+            if (lista[i].preco < lista[j].preco)
             {
-                aux = lista_item[i];
-                lista_item[i] = lista_item[j];
-                lista_item[j] = aux;
+                aux = lista[i];
+                lista[i] = lista[j];
+                lista[j] = aux;
             }
         }
+    }
+}
+
+// Passa um vetor de vetores dinâmicos para a limpeza 
+void encerraPrograma(produto_t **listas, int tamanho)
+{
+    for(int i = 0; i < tamanho; i++)
+    {
+        free(listas[i]);
+        listas[i] = NULL;
     }
 }
