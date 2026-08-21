@@ -71,7 +71,7 @@ ERROR_TYPE_T removeProduto(produto_t **lista, unsigned int id, int *tamanho)
                 free(*lista);
                 *lista = NULL;
                 printf("\nProduto de ID %d removido com sucesso!\n", id);
-                *tamanho--;
+                (*tamanho)--;
                 return SUCCESS;
             }
         
@@ -81,7 +81,7 @@ ERROR_TYPE_T removeProduto(produto_t **lista, unsigned int id, int *tamanho)
                 (*lista)[j] = (*lista)[j+1];  
             }
             
-            *tamanho--;
+            (*tamanho)--;
             produto_t *temp = (produto_t *)realloc(*lista, *tamanho * sizeof(*temp));
             if(temp == NULL)
             {
